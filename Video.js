@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {StyleSheet, requireNativeComponent, NativeModules, View} from 'react-native';
+import {StyleSheet, Platform, requireNativeComponent, NativeModules, View} from 'react-native';
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource';
 import VideoResizeMode from './VideoResizeMode.js';
 
@@ -10,6 +10,12 @@ const styles = StyleSheet.create({
 });
 
 export default class Video extends Component {
+
+  componentWillUnmount() {
+    if (Platform.OS === 'android') {
+      this.setNativeProps({ release: true });
+    }
+  }
 
   setNativeProps(nativeProps) {
     this._root.setNativeProps(nativeProps);
@@ -125,7 +131,7 @@ export default class Video extends Component {
     }
 
     const isNetwork = !!(uri && uri.match(/^https?:/));
-    const isAsset = !!(uri && uri.match(/^(assets-library|file|content):/));
+    const isAsset = !!(uri && uri.match(/^(assets-library|file|content|asset):/));
 
     let nativeResizeMode;
     if (resizeMode === VideoResizeMode.stretch) {
@@ -188,6 +194,7 @@ Video.propTypes = {
     PropTypes.number
   ]),
   resizeMode: PropTypes.string,
+  ...(Platform.OS === 'android' ? { release: PropTypes.bool } : {}),
   repeat: PropTypes.bool,
   paused: PropTypes.bool,
   muted: PropTypes.bool,
