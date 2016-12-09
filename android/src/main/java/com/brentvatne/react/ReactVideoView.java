@@ -355,8 +355,7 @@ public class ReactVideoView extends EMVideoView implements OnPreparedListener,
         isCompleted = true;
         mEventEmitter.receiveEvent(getId(), Events.EVENT_END.toString(), null);
         if (mRepeat) {
-            // TODO: no looping support from ExoPlayer yet, so do it manually here
-            setSrc(mSrcUriString, mSrcType, mSrcIsNetwork, mSrcIsAsset);
+            restart();
         } else {
             mMediaPlayerValid = false;
             mEventEmitter.receiveEvent(getId(), Events.EVENT_END.toString(), null);
