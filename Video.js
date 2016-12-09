@@ -11,12 +11,6 @@ const styles = StyleSheet.create({
 
 export default class Video extends Component {
 
-  componentWillUnmount() {
-    if (Platform.OS === 'android') {
-      this.setNativeProps({ release: true });
-    }
-  }
-
   setNativeProps(nativeProps) {
     this._root.setNativeProps(nativeProps);
   }

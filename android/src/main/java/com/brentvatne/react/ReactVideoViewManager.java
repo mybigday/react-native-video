@@ -43,6 +43,12 @@ public class ReactVideoViewManager extends SimpleViewManager<ReactVideoView> {
     }
 
     @Override
+    public void onDropViewInstance(ReactVideoView videoView) {
+        super.onDropViewInstance(videoView);
+        videoView.release();
+    }
+
+    @Override
     @Nullable
     public Map getExportedCustomDirectEventTypeConstants() {
         MapBuilder.Builder builder = MapBuilder.builder();
@@ -111,10 +117,5 @@ public class ReactVideoViewManager extends SimpleViewManager<ReactVideoView> {
     @ReactProp(name = PROP_PLAY_IN_BACKGROUND, defaultBoolean = false)
     public void setPlayInBackground(final ReactVideoView videoView, final boolean playInBackground) {
         videoView.setPlayInBackground(playInBackground);
-    }
-
-    @ReactProp(name = "release", defaultBoolean = false)
-    public void releaseIt(final ReactVideoView videoView, final boolean r) {
-        videoView.release();
     }
 }
