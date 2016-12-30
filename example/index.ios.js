@@ -166,7 +166,7 @@ class VideoPlayer extends Component {
       <View style={styles.container}>
         <View style={styles.fullScreen}>
           <Video
-            source={{uri: "broadchurch"}}
+            source={require("broadchurch.mp4")}
             style={videoStyle}
             rate={this.state.rate}
             paused={this.state.paused}
