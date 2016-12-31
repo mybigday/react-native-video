@@ -1,6 +1,5 @@
 package com.brentvatne.react;
 
-import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
@@ -16,9 +15,6 @@ import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.yqritc.scalablevideoview.ScalableType;
 import com.yqritc.scalablevideoview.ScalableVideoView;
-
-import com.android.vending.expansion.zipfile.APKExpansionSupport;
-import com.android.vending.expansion.zipfile.ZipResourceFile;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -218,36 +214,12 @@ public class ReactVideoView extends ScalableVideoView implements MediaPlayer.OnP
                     setDataSource(uriString);
                 }
             } else {
-                ZipResourceFile expansionFile= null;
-                AssetFileDescriptor fd= null;
-                if(mMainVer>0) {
-                    try {
-                        expansionFile = APKExpansionSupport.getAPKExpansionZipFile(mThemedReactContext, mMainVer, mPatchVer);
-                        fd = expansionFile.getAssetFileDescriptor(uriString.replace(".mp4","") + ".mp4");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if(fd==null) {
-                    int rawId = mThemedReactContext.getResources().getIdentifier(
-                        uriString,
-                        "drawable",
-                        mThemedReactContext.getPackageName()
-                    );
-                    if (rawId == 0) {
-                        rawId = mThemedReactContext.getResources().getIdentifier(
-                            uriString,
-                            "raw",
-                            mThemedReactContext.getPackageName()
-                        );
-                    }
-                    setRawData(rawId);
-                }
-                else {
-                    setDataSource(fd.getFileDescriptor(), fd.getStartOffset(),fd.getLength());
-                }
+                int rawId = mThemedReactContext.getResources().getIdentifier(
+                    uriString,
+                    "drawable",
+                    mThemedReactContext.getPackageName()
+                );
+                setRawData(rawId);
             }
         } catch (Exception e) {
             e.printStackTrace();
